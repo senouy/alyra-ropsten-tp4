@@ -1,10 +1,13 @@
 {
-  "name": "truffle",
+  "name": "open_sky_dapp",
   "version": "1.0.0",
-  "description": "Truffle project with SimpleStorage contract",
+  "description": "Platform managing Open Sky concept",
   "main": "truffle-config.js",
   "dependencies": {
-    "@truffle/hdwallet-provider": "^2.0.10"
+    "@openzeppelin/contracts": "^4.7.2",
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "@truffle/hdwallet-provider": "^2.0.13",
+    "dotenv": "^16.0.1"
   },
   "devDependencies": {},
   "scripts": {

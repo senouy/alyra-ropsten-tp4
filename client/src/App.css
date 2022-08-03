@@ -50,6 +50,10 @@ button:hover{
   clear: both;
 }
 
+.text-center{
+  text-align: center;
+}
+
 .hide{
   display:none;
 }
@@ -88,27 +92,53 @@ button:hover{
   float: left;
 }
 
-#workflow-status{
-  background-color: #6bcb26;
-  color: #fff;
-  padding: 5px 10px;
+.container-collection-item{
+  margin-top: 40px;;
 }
 
-#winning-proposal-description{
-  background-color: #279f36;
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-  font-size: 35px;
-  font-weight: bold;
+.container-collection-item .collection-item{
+  background-color: #68f16b;
+  color: #333;
+  width: 75%;
+  padding: 30px 0px;
+  font-size: 25px;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out 0s;
+  display: inline-block;
 }
 
-.blink {
-  animation: blinker 1s linear infinite;
+
+.collection-item:hover{
+  cursor: pointer;
+  opacity: 0.8;
 }
 
-@keyframes blinker {
-  50% {
-    opacity: 0;
-  }
+.container-nft-item{
+  height: 300px;
+  width: 80%;
+  background-size: cover;
+  margin: 20px auto;
+  position: relative;
+}
+
+.container-nft-item button{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 30%;
+}
+
+.container-nft-item .nft-price{
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  background-color: #fbff56;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  padding: 5px;
+  box-shadow: 3px 4px 11px #333;
 }
