@@ -142,3 +142,25 @@ button:hover{
   padding: 5px;
   box-shadow: 3px 4px 11px #333;
 }
+
+.container-nft-details img{
+  width: 80%;
+  height: auto;
+}
+
+.container-nft-details .nft-attribute{
+  width: 30%;
+  margin-right: 20px;
+  float: left;
+  text-align: center;
+  background-color: #bce6f6;
+  padding: 20px 0px;
+  border: 1px solid #4786e7;
+  border-radius: 8px;
+}
+
+.container-nft-details button{
+  width: 80%;
+  padding: 20px;
+  font-size: 30px;
+}

@@ -3,7 +3,7 @@ import React from "react";
 export default class NFTItem extends React.Component {
     render(){
         const renderButton = () => {
-            if (this.props.nft.isMinted === true) {
+            if (this.props.isOwner || this.props.nft.isMinted) {
               return ;
             } 
             return <button onClick={this.props.mintNFT} data-collection-id={this.props.collectionID} data-token-id={this.props.nft.edition} data-nft-price={this.props.nftPrice} >
@@ -12,7 +12,7 @@ export default class NFTItem extends React.Component {
         }
 
         const renderPrice = () => {
-            if (this.props.nft.isMinted === true) {
+            if (this.props.isOwner || this.props.nft.isMinted) {
               return ;
             } 
             return <span class="nft-price">

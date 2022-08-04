@@ -12,12 +12,13 @@ contract NFTFactory is Ownable, ERC721 {
     uint price;
     uint total;
 
-    string public metadataURI;
+    string cid;
 
-    mapping(address => bool) hasNFT;
+    mapping(address => uint256[]) public _tokensByAddress;
 
-    constructor(string memory _name, string memory _symbol, string memory _metadataURI, uint _price) ERC721(_name, _symbol) {
-        metadataURI = _metadataURI;
+
+    constructor(string memory _name, string memory _symbol, string memory _cid, uint _price) ERC721(_name, _symbol) {
+        cid = _cid;
         price=_price;
      }
 
@@ -26,14 +27,12 @@ contract NFTFactory is Ownable, ERC721 {
     }
     
     //use the mint function to create an NFT. Mint le plus simple possible ic
-    function mint(uint _tokenId) public payable returns (uint256){
+    function mint(uint _tokenId, address _origin) public payable returns (uint256){
         require(msg.value>=price, string.concat("Not the good price - ",Strings.toString(msg.value) ,(" - "), Strings.toString(price)));
-        //require(hasNFT[msg.sender]==false, "vous avez deja un nft");
         require(totalSupply() + _tokenId <= 30, "Max supply exceeded");
-
-        hasNFT[msg.sender]=true;
         
-        _mint(msg.sender, _tokenId);
+        _mint(_origin, _tokenId);
+        _tokensByAddress[_origin].push(_tokenId);
         return _tokenId;
     }
 
@@ -42,10 +41,20 @@ contract NFTFactory is Ownable, ERC721 {
     }
 
     //in the function below include the CID of the JSON folder on IPFS
-    function tokenURI(uint256 _tokenId) override public view returns(string memory) {
+    function getTokenURI(uint256 _tokenId) public view returns(string memory) {
         return string(
-            abi.encodePacked(string.concat("https://gateway.pinata.cloud/ipfs/",metadataURI,"/"),Strings.toString(_tokenId),".json")
+            abi.encodePacked(string.concat("https://gateway.pinata.cloud/ipfs/", cid, "/"),Strings.toString(_tokenId),".json")
             );
+    }
+
+    function getMetadataURI() public view returns (string memory) {
+        return string(
+            abi.encodePacked(string.concat("https://gateway.pinata.cloud/ipfs/", cid, "/_metadata.json"))
+            );
+    }
+
+    function getTokenByAddress(address _address) external view returns(uint256[] memory){
+        return _tokensByAddress[_address];
     }
 
     function withdraw() public view onlyOwner{

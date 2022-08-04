@@ -7,14 +7,14 @@ import PlatformOpenSkyContract from "./contracts/PlatformOpenSky.json";
 import getWeb3 from "./getWeb3";
 
 import Header from "./components/Header.js";
-import NFTItem from "./components/NFTItem.js"; 
-
+import NFTItem from "./components/NFTItem.js";
+import NFTDetails from "./components/NFTDetails.js";  
 
 import "./App.css";
 
 class App extends Component {
   state = { web3: null, accounts: null, contract: null, addresses: null, owner: null,
-            listCollections : [], listItemNFT : []
+            listCollections : [], listItemNFT : [], listMyNFT : []
           };
 
   componentDidMount = async () => {
@@ -38,9 +38,11 @@ class App extends Component {
       console.log(listCollections);
 
       let listItemNFT = [];
+      let listMyNFT = [];
+
       if(listCollections.length > 0){
         let metadata = await contract.methods.getCollectionMetadaURI(0).call();
-        console.log(metadata);
+        //console.log(metadata);
 
         let response_metada = await fetch(metadata);
         listItemNFT = await response_metada.json();
@@ -50,13 +52,24 @@ class App extends Component {
           nft.isMinted = response;
         }));
 
+        let listMyNFTIDs = await contract.methods.getMyNFTsIds(0).call({from: accounts[0]});
+        
+        await Promise.all(listMyNFTIDs.map(async (nftID) => {
+          let metadata = await contract.methods.getCollectionItem(0,nftID).call();
+          console.log(metadata);
+          let response_metada = await fetch(metadata);
+          let itemNFT = await response_metada.json();
+          listMyNFT.push(itemNFT);
+        }));
+        
+        console.log(listMyNFT);
       }
-      console.log(listItemNFT);
+      //console.log(listItemNFT);
       
       
       //let owner = await contract.methods.owner().call();
 
-      this.setState({ web3, accounts, contract, listCollections, listItemNFT});
+      this.setState({ web3, accounts, contract, listCollections, listItemNFT, listMyNFT});
       
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -92,8 +105,7 @@ class App extends Component {
     const collectionNameValue = document.getElementById("collection_name_value").value;
     const collectionSymbolValue = document.getElementById("collection_symbol_value").value;
     const nftPriceValue = web3.utils.toWei(document.getElementById("nft_price_value").value, 'ether');
-    console.log(nftPriceValue);
-    const collectionMetadataValue = 'https://gateway.pinata.cloud/ipfs/' + document.getElementById("collection_cid_metadata_value").value + '/_metadata.json';
+    const collectionMetadataValue = document.getElementById("collection_cid_metadata_value").value;
 
     try {
 
@@ -140,8 +152,9 @@ class App extends Component {
       <div className="App">
         <Header addr={this.state.accounts} />
 
-        <div>
-            <h3>Action</h3>
+        <h2 class="text-center">Action</h2>
+        <div class="main-container">
+            
             <div>
                   <input type="text" id="collection_name_value" placeholder="Nom de la collection" />
                   <input type="text" id="collection_symbol_value" placeholder="Symbole de la collection" />
@@ -151,8 +164,9 @@ class App extends Component {
               </div>
         </div>
 
-        <div>
-          <h2 class="text-center">Liste des collections</h2>
+        <h2 class="text-center">Liste des collections</h2>
+        <div class="main-container">
+          
           {this.state.listCollections.map( (collection) => (
               <div class="three-columns-container text-center container-collection-item" data-contract-address={collection.contractAddress}>
                   <span class="collection-item">{collection.name}</span>
@@ -163,16 +177,34 @@ class App extends Component {
         
         <div class="clearfix"></div>
 
-        <div>
-          <h2 class="text-center">Liste des NFTs</h2>
+        <h2 class="text-center">Liste des NFTs</h2>
+        <div class="main-container">
+          
           {this.state.listItemNFT.map( (nft) => (
               <div class="three-columns-container text-center" >
-                <NFTItem collectionID={0} nft={nft} nftPrice={this.state.listCollections[0].nftPrice} mintNFT={this.mintNFT} />
+                <NFTItem isOwner={false} collectionID={0} nft={nft} nftPrice={this.state.listCollections[0].nftPrice} mintNFT={this.mintNFT} />
                  
               </div>
             ))}
         </div>
+
+        <div class="clearfix"></div>
+
+        <div>
+          <h2 class="text-center">Details d'un NFT</h2>
+          <NFTDetails collectionID={0}  nft={this.state.listItemNFT[10]} nftPrice={this.state.listCollections[0].nftPrice} mintNFT={this.mintNFT} />
+        </div>
+
+        <div class="clearfix"></div>
+
+        <h2 class="text-center">Ma collection</h2>
         
+        {this.state.listMyNFT.map( (nft) => (
+            <div class="three-columns-container text-center" >
+              <NFTItem isOwner={true} collectionID={0} nft={nft} nftPrice={this.state.listCollections[0].nftPrice} mintNFT={this.mintNFT} />
+                
+            </div>
+          ))}
       </div>
     );
   }
