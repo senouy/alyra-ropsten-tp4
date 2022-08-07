@@ -1,40 +1,62 @@
-# React Truffle Box
+# TP4 - OpenSky
 
-This box comes with everything you need to start using Truffle to write, compile, test, and deploy smart contracts, and interact with them from a React app.
+## _Concurrent de OpenSea_
+
+[![N|Solid](https://alyra.fr/wp-content/uploads/2019/06/logo-titre-alyra-bleu-transparent-64px_v3.png)](https://github.com/senouy/alyra-ropsten-tp4)
+
+## Démo de la Dapp
+
+https://www.loom.com/share/
+
+## Dapp déployée sur le cloud
+
+Le front est déployé sur github à l'adresse : https://senouy.github.io/alyra-ropsten-tp4
+
+Le back est déployé sur le réseau ropsten via la commande :
+
+```sh
+truffle migrate --network ropsten
+```
 
 ## Installation
 
-First ensure you are in an empty directory.
+Cloner le projet depuis le repository public https://github.com/senouy/alyra-ropsten-tp4
 
-Run the `unbox` command using 1 of 2 ways.
+### Installation React
 
-```sh
-# Install Truffle globally and run `truffle unbox`
-$ npm install -g truffle
-$ truffle unbox react
-```
+Installer et lancer le projet react en local
 
 ```sh
-# Alternatively, run `truffle unbox` via npx
-$ npx truffle unbox react
+cd alyra-ropsten-tp4/clients
+npm install
+npm run start
 ```
 
-Start the react dev server.
+### Installation Truffle
+
+Lancer ganache depuis un autre terminal
 
 ```sh
-$ cd client
-$ npm start
-  Starting the development server...
+ganache
 ```
 
-From there, follow the instructions on the hosted React app. It will walk you through using Truffle and Ganache to deploy the `SimpleStorage` contract, making calls to it, and sending transactions to change the contract's state.
+Déployer le smart contract en local
 
-## FAQ
+```sh
+cd ../truflle
+truffle migrate
+```
 
-- __How do I use this with Ganache (or any other network)?__
+## Couverture de test
 
-  The Truffle project is set to deploy to Ganache by default. If you'd like to change this, it's as easy as modifying the Truffle config file! Check out [our documentation on adding network configurations](https://trufflesuite.com/docs/truffle/reference/configuration/#networks). From there, you can run `truffle migrate` pointed to another network, restart the React dev server, and see the change take place.
+### 1. Tests sur les collections
 
-- __Where can I find more resources?__
+- Scénarios testés
+  - Création d'une collection et vérification que les infos saisies sont bien celles enregistrées dans la blockchain
 
-  This Box is a sweet combo of [Truffle](https://trufflesuite.com) and [Create React App](https://create-react-app.dev). Either one would be a great place to start!
+### 2. Tests sur les NFT
+
+- Scénarios testés
+  - Récupération des metadatas d'un NFT
+  - Mint d'un NFT
+  - Vérification qu'un NFT minté appartient bien au minter
