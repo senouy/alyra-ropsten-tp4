@@ -14,7 +14,7 @@ class CollectionDetailsPage extends Component {
     return (
       <div>
         <h2 class="text-center">
-          NFTs de la collection {this.props.currentCollection.name}
+          NFTs de la collection : {this.props.currentCollection.name}
         </h2>
         <div class="main-container">
           {this.props.listItemNFT.map((nft) => (

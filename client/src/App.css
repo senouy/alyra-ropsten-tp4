@@ -77,8 +77,8 @@ button:hover, .button:hover{
 #toast-message{
   color: #fff;
   position: fixed;
-  left: 5px;
-  top: 5px;
+  right: 10px;
+  top: 100px;
   min-width: 200px;
   padding: 10px 15px;
 }
@@ -89,6 +89,9 @@ button:hover, .button:hover{
 
 #toast-message.info-message{
   background-color: rgb(119, 194, 255);
+}
+#toast-message.success-message{
+  background-color: rgb(55, 234, 91);
 }
 
 .main-container{

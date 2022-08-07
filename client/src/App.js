@@ -222,6 +222,14 @@ class App extends Component {
       document.getElementById("collection_symbol_value").value = "";
       document.getElementById("nft_price_value").value = "";
       document.getElementById("collection_cid_metadata_value").value = "";
+
+      let listCollections = await contract.methods.getCollectionArray().call();
+      this.setState({ listCollections });
+
+      this.displayMessage(
+        "La collection a bien été ajoutée",
+        CONSTANTS.TOAST_MESSAGE_TYPE.SUCCESS
+      );
     } catch (error) {
       this.displayMessage(
         "Une erreur est survenue",

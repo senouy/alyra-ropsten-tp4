@@ -6,16 +6,14 @@ class MyNFTsPage extends Component {
   render() {
     return (
       <div>
-        <h2 class="text-center">Ma collection</h2>
+        <h2 class="text-center">Mes NFT</h2>
 
         {this.props.listMyNFT.map((nft) => (
           <div class="three-columns-container text-center">
             <NFTItem
               isOwner={true}
-              collectionID={0}
               nft={nft}
               nftPrice={this.props.currentCollection.nftPrice}
-              mintNFT={this.mintNFT}
             />
           </div>
         ))}

@@ -9,7 +9,7 @@ class NFTDetailPage extends Component {
         <div>
           <h2 class="text-center">Details d'un NFT</h2>
           <NFTDetails
-            collectionID={0}
+            collectionID={this.props.currentCollectionID}
             nft={this.props.nft}
             nftPrice={this.props.nftPrice}
             mintNFT={this.props.mintNFT}
